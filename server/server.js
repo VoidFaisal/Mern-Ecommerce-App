@@ -2,9 +2,11 @@ import express from "express";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors"
+import dotenv from 'dotenv'
+dotenv.config()
 mongoose
   .connect(
-    "mongodb+srv://faisalmuhammad2001:g5Jj2AUzwBeUTkDR@ecommerce.6d5rk.mongodb.net/"
+   process.env.MONGO_URI
   )
   .then(() => console.log("MongoDB Connected"))
   .catch((error) => console.log(error));

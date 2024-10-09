@@ -11,23 +11,37 @@ function CheckAuth({ isAuthenticated, user, children }) {
       location.pathname.includes("register")
     )
   ) {
-    return <Navigate to="auth/login" />;
+    return <Navigate to="/auth/login" />;
   }
   if (
     isAuthenticated &&
     (location.pathname.includes("login") ||
-      location.pathname.includes("register"))
+      location.pathname.includes("register")||
+      location.pathname.includes("auth"))
   ) {
     if (user?.role === "admin") {
-      return <Navigate to="admin/dashboard" />;
+      return <Navigate to="/admin/dashboard" />;
     } else {
-      return <Navigate to="shop/dashboard" />;
+      return <Navigate to="/shop/dashboard" />;
     }
   }
-  if(isAuthenticated && user?.role !=="admin" && location.pathname.includes("admin")){
-    return <Navigate to="/unauth-page"/>
+  if (
+    isAuthenticated &&
+    user?.role !== "admin" &&
+    location.pathname.includes("admin")
+  ) {
+    return <Navigate to="/unauth-page" />;
   }
- 
+
+  if (
+    isAuthenticated &&
+    user?.role === "admin" &&
+    location.pathname.includes("shop")
+  ) {
+    return <Navigate to="/admin/dashboard" />;
+  }
+
+  return <>{children}</>;
 }
 
 export default CheckAuth;
