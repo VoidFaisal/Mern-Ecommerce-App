@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors"
 import dotenv from 'dotenv'
+import AuthRouter from "./routes/auth/auth-routes.js"
 dotenv.config()
 mongoose
   .connect(
@@ -12,11 +13,11 @@ mongoose
   .catch((error) => console.log(error));
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 app.use(
     cors({
-        origin:'http://localhost:5173/',
+        origin:'http://localhost:5173',
         methods:['GET','POST','DELETE','PUT'],
         allowedHeaders:['Content-Type','Authorization','Cache-Control','Expires','Pragma'],
         credentials:true
@@ -26,4 +27,7 @@ app.use(
 app.use(cookieParser())
 app.use(express.json())
 
-app.listen(PORT, ()=>console.log(`Server is now running on port $PORT`))
+
+app.use('/api/auth',AuthRouter)
+
+app.listen(PORT, console.log(`Server is now running on port ${PORT}`))
